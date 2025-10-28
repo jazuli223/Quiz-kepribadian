@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Kepribadian</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+        }
+        .option {
+            margin: 5px 0;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        #quiz {
+            display: block;
+        }
+        #result {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Quiz Kepribadian: Temukan Jati Diri anda</h1>
+    <p>Soal ada 10 Jawab pertanyaan berikut dengan jujur untuk mengetahui lebih dalam tentang kepribadian Anda. Quiz ini berdasarkan dimensi introvert vs extrovert, serta pemikir vs perasaan.</p>
+    
+    <div id="quiz">
+        <div class="question">
+            <p>1. Apakah Anda lebih suka menghabiskan waktu sendirian daripada di keramaian?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q1" value="introvert"> Ya, sangat</label>
+                <label class="option"><input type="radio" name="q1" value="extrovert"> Tidak, saya suka keramaian</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>2. Saat menghadapi masalah, apakah Anda lebih mengandalkan logika atau perasaan?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q2" value="thinker"> Logika</label>
+                <label class="option"><input type="radio" name="q2" value="feeler"> Perasaan</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>3. Apakah Anda merasa energik setelah berinteraksi dengan banyak orang?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q3" value="extrovert"> Ya</label>
+                <label class="option"><input type="radio" name="q3" value="introvert"> Tidak, saya butuh waktu sendiri</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>4. Apakah Anda lebih suka merencanakan segalanya atau spontan?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q4" value="thinker"> Merencanakan</label>
+                <label class="option"><input type="radio" name="q4" value="feeler"> Spontan</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>5. Apakah Anda sering memikirkan masa depan atau hidup di saat ini?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q5" value="thinker"> Masa depan</label>
+                <label class="option"><input type="radio" name="q5" value="feeler"> Saat ini</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>6. Apakah Anda lebih suka bekerja dalam tim atau sendirian?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q6" value="extrovert"> Dalam tim</label>
+                <label class="option"><input type="radio" name="q6" value="introvert"> Sendirian</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>7. Saat stres, apakah Anda lebih suka berbicara dengan orang lain atau menyendiri?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q7" value="extrovert"> Berbicara dengan orang lain</label>
+                <label class="option"><input type="radio" name="q7" value="introvert"> Menyendiri</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>8. Apakah Anda lebih mudah memahami fakta atau emosi orang lain?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q8" value="thinker"> Fakta</label>
+                <label class="option"><input type="radio" name="q8" value="feeler"> Emosi</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>9. Apakah Anda suka rutinitas atau perubahan?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q9" value="thinker"> Rutinitas</label>
+                <label class="option"><input type="radio" name="q9" value="feeler"> Perubahan</label>
+            </div>
+        </div>
+        <div class="question">
+            <p>10. Apakah Anda lebih fokus pada detail atau gambaran besar?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q10" value="thinker"> Detail</label>
+                <label class="option"><input type="radio" name="q10" value="feeler"> Gambaran besar</label>
+            </div>
+        </div>
+        <button onclick="calculateResult()">Lihat Hasil</button>
+    </div>
+    
+    <div id="result">
+        <h2>Hasil Anda:</h2>
+        <p id="personality"></p>
+        <p id="description"></p>
+        <button onclick="resetQuiz()">Coba Lagi</button>
+    </div>
+
+    <script>
+        function calculateResult() {
+            let introvert = 0;
+            let extrovert = 0;
+            let thinker = 0;
+            let feeler = 0;
+
+            // Hitung skor dari jawaban
+            const questions = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10'];
+            questions.forEach(q => {
+                const value = document.querySelector(`input[name="${q}"]:checked`)?.value;
+                if (value === 'introvert') introvert++;
+                if (value === 'extrovert') extrovert++;
+                if (value === 'thinker') thinker++;
+                if (value === 'feeler') feeler++;
+            });
+
+            // Tentukan tipe kepribadian berdasarkan skor
+            let personality = '';
+            let description = '';
+
+            if (introvert > extrovert) {
+                personality = 'Introvert';
+                description = 'Anda cenderung lebih nyaman sendirian dan mendapatkan energi dari waktu pribadi. Ini membantu Anda merenung dan fokus pada pemikiran dalam.';
+            } else {
+                personality = 'Extrovert';
+                description = 'Anda suka berinteraksi dengan orang lain dan mendapatkan energi dari keramaian. Ini membuat Anda sosial dan energik di lingkungan sosial.';
+            }
+
+            if (thinker > feeler) {
+                personality += ' - Pemikir';
+                description += ' Anda lebih mengandalkan logika dan analisis dalam pengambilan keputusan.';
+            } else {
+                personality += ' - Perasa';
+                description += ' Anda lebih mengandalkan perasaan dan empati dalam pengambilan keputusan.';
+            }
+
+            // Tampilkan hasil
+            document.getElementById('personality').textContent = personality;
+            document.getElementById('description').textContent = description;
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('result').style.display = 'block';
+        }
+
+        function resetQuiz() {
+            // Reset radio buttons
+            const radios = document.querySelectorAll('input[type="radio"]');
+            radios.forEach(radio => radio.checked = false);
+            // Tampilkan quiz lagi
+            document.getElementById('quiz').style.display = 'block';
+            document.getElementById('result').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
